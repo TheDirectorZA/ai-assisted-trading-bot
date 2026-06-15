@@ -1,0 +1,12 @@
+{% extends "trading_engine/base.html" %}
+{% block content %}
+<h1>Risk Settings</h1>
+<div class="banner warn">Dangerous risk-setting changes should be made in admin with explicit review.</div>
+<div class="panel">
+  <p>Max risk per trade: {{ risk_settings.max_risk_per_trade_percentage }}%</p>
+  <p>Daily loss limit: {{ risk_settings.max_daily_loss_percentage }}%</p>
+  <p>Max open positions: {{ risk_settings.max_open_positions }}</p>
+  <p>Stop loss required: {{ risk_settings.require_stop_loss }}</p>
+  <p>Take profit required: {{ risk_settings.require_take_profit }}</p>
+</div>
+{% endblock %}

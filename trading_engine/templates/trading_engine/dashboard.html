@@ -1,0 +1,75 @@
+{% extends "trading_engine/base.html" %}
+{% block content %}
+{% if settings.mode == "live" %}
+  <div class="banner danger">LIVE TRADING MODE ACTIVE — REAL MONEY IS AT RISK</div>
+{% endif %}
+{% if state.kill_switch_active %}
+  <div class="banner danger">Kill switch active. New orders are blocked.</div>
+{% endif %}
+<h1>Home Dashboard</h1>
+<div class="grid">
+  <section class="panel">
+    <h2>Mode</h2>
+    <p>{{ state.mode }}{% if state.live_trading_armed %} / armed{% endif %}</p>
+    <p class="muted">Bot running: {{ state.is_running }}</p>
+  </section>
+  <section class="panel">
+    <h2>Broker</h2>
+    {% if account %}
+      <p>{{ account.broker_name }} {{ account.account_number }}</p>
+      <p>Connected: {{ account.connected }} / Trade allowed: {{ account.trade_allowed }}</p>
+    {% else %}
+      <p class="muted">No account synced yet.</p>
+    {% endif %}
+  </section>
+  <section class="panel">
+    <h2>Balance</h2>
+    <p>Balance: {{ account.balance|default:"-" }}</p>
+    <p>Equity: {{ account.equity|default:"-" }}</p>
+  </section>
+  <section class="panel">
+    <h2>Daily PnL</h2>
+    <p>{{ daily_pnl }}</p>
+  </section>
+</div>
+
+<form method="post" action="{% url 'trading_engine:activate_kill_switch' %}" style="margin:18px 0">
+  {% csrf_token %}
+  <button class="danger-button" type="submit">ACTIVATE KILL SWITCH</button>
+</form>
+
+<div class="grid">
+  <section class="panel">
+    <h2>Open Positions</h2>
+    <table><tr><th>Symbol</th><th>Side</th><th>Volume</th><th>PnL</th></tr>
+      {% for position in open_positions %}
+        <tr><td>{{ position.symbol }}</td><td>{{ position.side }}</td><td>{{ position.volume }}</td><td>{{ position.unrealized_pnl }}</td></tr>
+      {% empty %}<tr><td colspan="4">No open positions.</td></tr>{% endfor %}
+    </table>
+  </section>
+  <section class="panel">
+    <h2>Latest Signals</h2>
+    <table><tr><th>Symbol</th><th>Strategy</th><th>Type</th><th>Time</th></tr>
+      {% for signal in latest_signals %}
+        <tr><td>{{ signal.symbol }}</td><td>{{ signal.strategy }}</td><td>{{ signal.signal_type }}</td><td>{{ signal.timestamp }}</td></tr>
+      {% empty %}<tr><td colspan="4">No signals yet.</td></tr>{% endfor %}
+    </table>
+  </section>
+  <section class="panel">
+    <h2>Latest Orders</h2>
+    <table><tr><th>Symbol</th><th>Side</th><th>Status</th><th>Created</th></tr>
+      {% for order in latest_orders %}
+        <tr><td>{{ order.symbol }}</td><td>{{ order.side }}</td><td>{{ order.status }}</td><td>{{ order.created_at }}</td></tr>
+      {% empty %}<tr><td colspan="4">No orders yet.</td></tr>{% endfor %}
+    </table>
+  </section>
+  <section class="panel">
+    <h2>Risk Status</h2>
+    <table><tr><th>Event</th><th>Decision</th><th>Rules</th></tr>
+      {% for event in risk_events %}
+        <tr><td>{{ event.event_type }}</td><td>{{ event.decision }}</td><td>{{ event.triggered_rules }}</td></tr>
+      {% empty %}<tr><td colspan="3">No risk events.</td></tr>{% endfor %}
+    </table>
+  </section>
+</div>
+{% endblock %}

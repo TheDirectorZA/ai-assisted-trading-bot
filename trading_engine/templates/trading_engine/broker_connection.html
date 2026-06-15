@@ -1,0 +1,24 @@
+{% extends "trading_engine/base.html" %}
+{% block content %}
+<h1>Broker Connection</h1>
+<div class="panel">
+  <h2>MT5 Environment</h2>
+  <p>Credentials are read from environment variables and passwords are never displayed.</p>
+  <ul>
+    {% for name in env_names %}<li><code>{{ name }}</code></li>{% endfor %}
+  </ul>
+</div>
+<div class="panel" style="margin-top:14px">
+  <h2>Latest Account</h2>
+  {% if account %}
+    <p>Broker: {{ account.broker_name }}</p>
+    <p>Account: {{ account.account_number }}</p>
+    <p>Server: {{ account.server }}</p>
+    <p>Connected: {{ account.connected }}</p>
+    <p>Balance: {{ account.balance }} {{ account.currency }}</p>
+    <p>Equity: {{ account.equity }}</p>
+  {% else %}
+    <p class="muted">No account has been synced.</p>
+  {% endif %}
+</div>
+{% endblock %}

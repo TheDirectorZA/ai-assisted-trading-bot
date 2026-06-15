@@ -1,0 +1,29 @@
+{% extends "trading_engine/base.html" %}
+{% block content %}
+{% if live_settings.mode == "live" %}
+  <div class="banner danger">LIVE TRADING MODE ACTIVE — REAL MONEY IS AT RISK</div>
+{% endif %}
+<h1>Live Trading Control</h1>
+<div class="grid">
+  <section class="panel">
+    <h2>State</h2>
+    <p>Mode: {{ state.mode }}</p>
+    <p>Running: {{ state.is_running }}</p>
+    <p>Armed: {{ state.live_trading_armed }}</p>
+    <p>Kill switch: {{ state.kill_switch_active }}</p>
+  </section>
+  <section class="panel">
+    <h2>Activation Checks</h2>
+    {% if activation_errors %}
+      <ul>{% for error in activation_errors %}<li>{{ error }}</li>{% endfor %}</ul>
+    {% else %}
+      <div class="banner ok">All environment live activation gates are satisfied.</div>
+    {% endif %}
+    <p class="muted">Required phrase: <code>{{ confirmation_phrase }}</code></p>
+  </section>
+</div>
+<form method="post" action="{% url 'trading_engine:activate_kill_switch' %}" style="margin-top:18px">
+  {% csrf_token %}
+  <button class="danger-button" type="submit">ACTIVATE KILL SWITCH</button>
+</form>
+{% endblock %}

@@ -1,0 +1,15 @@
+.env
+.git/
+.local/
+db.sqlite3
+staticfiles/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.egg-info/
+*.py[cod]
+build/
+dist/
+htmlcov/
+.coverage

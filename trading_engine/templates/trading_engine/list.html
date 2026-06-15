@@ -1,0 +1,14 @@
+{% extends "trading_engine/base.html" %}
+{% block content %}
+<h1>{{ title }}</h1>
+<div class="panel">
+  <table>
+    <tr><th>Record</th></tr>
+    {% for item in items %}
+      <tr><td>{{ item }}</td></tr>
+    {% empty %}
+      <tr><td>No records.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
