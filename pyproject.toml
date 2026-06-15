@@ -32,6 +32,9 @@ dev = [
 mt5 = [
     "MetaTrader5>=5.0.45; platform_system == 'Windows'",
 ]
+openai = [
+    "openai>=2",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]

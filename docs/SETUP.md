@@ -25,3 +25,12 @@ make test
 make lint
 make typecheck
 ```
+
+Optional OpenAI AI provider:
+
+```bash
+python3 -m pip install -e ".[openai]"
+AI_PROVIDER=openai
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-5.4-mini
+```

@@ -41,7 +41,8 @@ for local development, optional PostgreSQL in Docker Compose, Pydantic, Pytest,
 Ruff, Black, and MyPy.
 
 No paid AI API, paid market-data API, paid cloud hosting, SMS, or email service
-is required.
+is required. OpenAI is supported as an optional AI provider when you configure
+your own API key.
 
 ## Local Setup
 
@@ -179,6 +180,19 @@ make migrate
 make seed
 make backtest
 ```
+
+## OpenAI AI Provider
+
+```bash
+python3 -m pip install -e ".[openai]"
+AI_PROVIDER=openai
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-5.4-mini
+```
+
+OpenAI is used only for educational explanations, risk-block explanations,
+position summaries, trade reviews, and backtest reviews. It cannot place,
+approve, close, or modify trades.
 
 ## Known Limitations
 

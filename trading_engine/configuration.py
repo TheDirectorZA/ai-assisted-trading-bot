@@ -62,6 +62,9 @@ class LiveTradingSettings:
     ai_provider: str
     ollama_base_url: str
     ollama_model: str
+    openai_model: str = "gpt-5.4-mini"
+    openai_base_url: str = ""
+    openai_timeout_seconds: int = 30
 
     @classmethod
     def from_env(cls) -> LiveTradingSettings:
@@ -83,6 +86,9 @@ class LiveTradingSettings:
             ai_provider=os.getenv("AI_PROVIDER", "mock").strip().lower(),
             ollama_base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
             ollama_model=os.getenv("OLLAMA_MODEL", ""),
+            openai_model=os.getenv("OPENAI_MODEL", "gpt-5.4-mini"),
+            openai_base_url=os.getenv("OPENAI_BASE_URL", ""),
+            openai_timeout_seconds=_int_env("OPENAI_TIMEOUT_SECONDS", 30),
         )
 
     def activation_errors(self) -> list[str]:
