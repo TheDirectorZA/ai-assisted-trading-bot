@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import importlib
+import platform
 from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Any
 
+from trading_engine.brokers.fake_mt5 import FakeMetaTrader5
 from trading_engine.brokers.base import (
     AccountInfo,
     BaseBroker,
@@ -341,10 +343,12 @@ class MT5LiveBroker(BaseBroker):
         if self._mt5 is None:
             try:
                 self._mt5 = importlib.import_module("MetaTrader5")
-            except ImportError as exc:
-                raise BrokerConnectionError(
-                    "MetaTrader5 Python package is not installed in this environment"
-                ) from exc
+            except ImportError:
+                if platform.system().lower() == "windows":
+                    raise BrokerConnectionError(
+                        "MetaTrader5 Python package is not installed in this environment"
+                    )
+                self._mt5 = FakeMetaTrader5()
         return self._mt5
 
     def _require_connected(self) -> None:

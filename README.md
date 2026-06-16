@@ -97,7 +97,7 @@ MT5_MAGIC_NUMBER=20260615
 MT5_DEFAULT_DEVIATION_POINTS=20
 ```
 
-Install the official package in an environment where it is supported:
+Install the official package in an environment where it is supported (Windows only for the MT5 adapter):
 
 ```bash
 python3 -m pip install ".[mt5]"

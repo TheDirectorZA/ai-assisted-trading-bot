@@ -18,6 +18,7 @@ dependencies = [
     "pydantic>=2.7",
     "pandas>=2.2",
     "numpy>=1.26",
+    "python-dotenv>=1.0",
 ]
 
 [project.optional-dependencies]
